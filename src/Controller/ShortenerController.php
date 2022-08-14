@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Lib\ApiErrors;
+use App\Lib\ShortUrl;
+use App\Lib\ValidateAuthorization;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +26,12 @@ class ShortenerController extends AbstractController
      * @var HttpClientInterface
      */
     public $client;
+    /** @var ValidateAuthorization */
+    private $validateAuthorization;
+    /** @var ShortUrl */
+    private $shortUrl;
+    /** @var ApiErrors */
+    private $apiErrors;
 
     /**
      * @param HttpClientInterface $client
@@ -30,6 +39,9 @@ class ShortenerController extends AbstractController
     public function __construct(HttpClientInterface $client)
     {
         $this->client = $client;
+        $this->validateAuthorization = new ValidateAuthorization();
+        $this->shortUrl = new ShortUrl($this);
+        $this->apiErrors = new ApiErrors();
     }
 
     /**
@@ -41,7 +53,7 @@ class ShortenerController extends AbstractController
         if(!empty($token)){
             $token = str_replace( 'Bearer ', '', $token);
             if(!$this->validateAuthorization($token)){
-                return $this->setError(JsonResponse::HTTP_UNAUTHORIZED, self::MSG_ERROR_TOKEN);
+                return $this->json( $this->setError(JsonResponse::HTTP_UNAUTHORIZED, self::MSG_ERROR_TOKEN));
             }
         }
 
@@ -49,12 +61,12 @@ class ShortenerController extends AbstractController
         $body_obj = json_decode($body);
 
         if(empty($body_obj->url)){
-           return $this->setError(JsonResponse::HTTP_BAD_REQUEST, self::MSG_EMPTY_VALUE);
+            return $this->json($this->setError(JsonResponse::HTTP_BAD_REQUEST, self::MSG_EMPTY_VALUE));
         }
 
         $violations = Validation::createValidator()->validate($body_obj->url, new Url());
         if(count($violations) >0){
-            return $this->setError(JsonResponse::HTTP_BAD_REQUEST, $violations[0]->getMessage());
+            return $this->json($this->setError(JsonResponse::HTTP_BAD_REQUEST, $violations[0]->getMessage()));
         }
         $url_return =$this->getShortUrl($body_obj->url);
         if(!empty($url_return)){
@@ -62,76 +74,22 @@ class ShortenerController extends AbstractController
                 'url' => $url_return,
             ]);
         }else{
-            return $this->setError(self::CODE_ERROR_TINYURL, self::MSG_ERROR_TINYURL);
+            return $this->json($this->setError(self::CODE_ERROR_TINYURL, self::MSG_ERROR_TINYURL));
         }
     }
 
-    /**
-     * @param $code
-     * @param $msg
-     * @return mixed
-     */
-    private function setError($code, $msg){
-        return $this->json([
-            'success' => false,
-            'error' => [
-                'errCode' => $code,
-                'errMsg' => $msg
-            ]
-        ]);
+    private function setError($code, $msg)
+    {
+        return $this->apiErrors->setError($code, $msg);
     }
 
-    /**
-     * @param $url
-     * @return false|string
-     * @throws \Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface
-     * @throws \Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface
-     */
-    private function getShortUrl($url){
-        $response = $this->client->request(
-            'GET',
-            'https://tinyurl.com/api-create.php?url='.$url
-        );
-
-        if($response->getStatusCode()==200){
-            return $response->getContent();
-        }else{
-            return false;
-        }
+    private function getShortUrl($url)
+    {
+        return $this->shortUrl->getShortUrl($url);
     }
 
-    /**
-     * @param $token
-     * @return bool
-     */
     private function validateAuthorization($token)
     {
-        $token = str_split($token);
-        $stack = array();
-        foreach($token as $value){
-
-            switch ($value) {
-                case '(': array_push($stack, 0); break;
-                case ')':
-                    if (array_pop($stack) !== 0)
-                        return false;
-                    break;
-                case '[': array_push($stack, 1); break;
-                case ']':
-                    if (array_pop($stack) !== 1)
-                        return false;
-                    break;
-                case '{': array_push($stack, 2); break;
-                case '}':
-                    if (array_pop($stack) !== 2)
-                        return false;
-                    break;
-                default:
-                    return false;
-            }
-        }
-        return (empty($stack));
+        return $this->validateAuthorization->validateAuthorization($token);
     }
 }
