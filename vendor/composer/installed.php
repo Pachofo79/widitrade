@@ -1,15 +1,72 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'v5.4.99',
-        'version' => '5.4.99.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
-        'name' => 'symfony/skeleton',
+        'reference' => '7172cdf7f8eac7cbe2d0687cdbc6de67fe611a18',
+        'name' => '__root__',
         'dev' => true,
     ),
     'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '7172cdf7f8eac7cbe2d0687cdbc6de67fe611a18',
+            'dev_requirement' => false,
+        ),
+        'doctrine/annotations' => array(
+            'pretty_version' => '1.13.3',
+            'version' => '1.13.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../doctrine/annotations',
+            'aliases' => array(),
+            'reference' => '648b0343343565c4a056bfc8392201385e8d89f0',
+            'dev_requirement' => false,
+        ),
+        'doctrine/inflector' => array(
+            'pretty_version' => '2.0.4',
+            'version' => '2.0.4.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../doctrine/inflector',
+            'aliases' => array(),
+            'reference' => '8b7ff3e4b7de6b2c84da85637b59fd2880ecaa89',
+            'dev_requirement' => true,
+        ),
+        'doctrine/lexer' => array(
+            'pretty_version' => '1.2.3',
+            'version' => '1.2.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../doctrine/lexer',
+            'aliases' => array(),
+            'reference' => 'c268e882d4dbdd85e36e4ad69e02dc284f89d229',
+            'dev_requirement' => false,
+        ),
+        'nikic/php-parser' => array(
+            'pretty_version' => 'v4.14.0',
+            'version' => '4.14.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../nikic/php-parser',
+            'aliases' => array(),
+            'reference' => '34bea19b6e03d8153165d8f30bba4c3be86184c1',
+            'dev_requirement' => true,
+        ),
+        'php-http/async-client-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '*',
+            ),
+        ),
+        'php-http/client-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '*',
+            ),
+        ),
         'psr/cache' => array(
             'pretty_version' => '1.0.1',
             'version' => '1.0.1.0',
@@ -50,6 +107,12 @@
             'dev_requirement' => false,
         ),
         'psr/event-dispatcher-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '1.0',
+            ),
+        ),
+        'psr/http-client-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
                 0 => '1.0',
@@ -214,6 +277,30 @@
             'reference' => 'a0660b602357d5c2ceaac1c9f80c5820bbff803d',
             'dev_requirement' => false,
         ),
+        'symfony/http-client' => array(
+            'pretty_version' => 'v5.4.11',
+            'version' => '5.4.11.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/http-client',
+            'aliases' => array(),
+            'reference' => '5c5c37eb2a276d8d7d669dd76688aa1606ee78fb',
+            'dev_requirement' => false,
+        ),
+        'symfony/http-client-contracts' => array(
+            'pretty_version' => 'v2.5.2',
+            'version' => '2.5.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/http-client-contracts',
+            'aliases' => array(),
+            'reference' => 'ba6a9f0e8f3edd190520ee3b9a958596b6ca2e70',
+            'dev_requirement' => false,
+        ),
+        'symfony/http-client-implementation' => array(
+            'dev_requirement' => false,
+            'provided' => array(
+                0 => '2.4',
+            ),
+        ),
         'symfony/http-foundation' => array(
             'pretty_version' => 'v5.4.11',
             'version' => '5.4.11.0',
@@ -231,6 +318,15 @@
             'aliases' => array(),
             'reference' => '4fd590a2ef3f62560dbbf6cea511995dd77321ee',
             'dev_requirement' => false,
+        ),
+        'symfony/maker-bundle' => array(
+            'pretty_version' => 'v1.43.0',
+            'version' => '1.43.0.0',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../symfony/maker-bundle',
+            'aliases' => array(),
+            'reference' => 'e3f9a1d9e0f4968f68454403e820dffc7db38a59',
+            'dev_requirement' => true,
         ),
         'symfony/polyfill-ctype' => array(
             'dev_requirement' => false,
@@ -337,15 +433,6 @@
                 0 => '1.0|2.0',
             ),
         ),
-        'symfony/skeleton' => array(
-            'pretty_version' => 'v5.4.99',
-            'version' => '5.4.99.0',
-            'type' => 'project',
-            'install_path' => __DIR__ . '/../../',
-            'aliases' => array(),
-            'reference' => NULL,
-            'dev_requirement' => false,
-        ),
         'symfony/string' => array(
             'pretty_version' => 'v5.4.11',
             'version' => '5.4.11.0',
@@ -353,6 +440,24 @@
             'install_path' => __DIR__ . '/../symfony/string',
             'aliases' => array(),
             'reference' => '5eb661e49ad389e4ae2b6e4df8d783a8a6548322',
+            'dev_requirement' => false,
+        ),
+        'symfony/translation-contracts' => array(
+            'pretty_version' => 'v2.5.2',
+            'version' => '2.5.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/translation-contracts',
+            'aliases' => array(),
+            'reference' => '136b19dd05cdf0709db6537d058bcab6dd6e2dbe',
+            'dev_requirement' => false,
+        ),
+        'symfony/validator' => array(
+            'pretty_version' => 'v5.4.11',
+            'version' => '5.4.11.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/validator',
+            'aliases' => array(),
+            'reference' => 'd6457034ba8a4ea6703e5607829a337b66a53ce8',
             'dev_requirement' => false,
         ),
         'symfony/var-dumper' => array(

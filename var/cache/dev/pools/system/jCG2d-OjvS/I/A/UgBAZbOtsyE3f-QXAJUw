@@ -1,0 +1,3 @@
+<?php //App%255CController%255CShortenerController%2523getShortUrl
+
+return [PHP_INT_MAX, []];

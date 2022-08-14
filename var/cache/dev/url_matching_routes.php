@@ -8,6 +8,7 @@
 return [
     false, // $matchHost
     [ // $staticRoutes
+        '/api/v1/short-urls' => [[['_route' => 'app_shortener', '_controller' => 'App\\Controller\\ShortenerController::index'], null, null, null, false, false, null]],
     ],
     [ // $regexpList
         0 => '{^(?'
